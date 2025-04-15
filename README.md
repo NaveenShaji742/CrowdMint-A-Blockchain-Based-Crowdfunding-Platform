@@ -58,6 +58,7 @@ npx hardhat run scripts/deploy.js --network localhost
 ### 💻Initialization of Frontend 
 
 ```bash
+# In a new terminal tab
 cd client
 npm install
 npm start
