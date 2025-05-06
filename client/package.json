@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "moment": "^2.29.2",
     "next": "^11.1.4",
     "next-redux-wrapper": "^7.0.5",

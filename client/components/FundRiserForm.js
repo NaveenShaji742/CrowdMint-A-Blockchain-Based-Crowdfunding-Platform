@@ -4,7 +4,7 @@ import { startFundRaising } from '../redux/interactions';
 import { useDispatch, useSelector } from 'react-redux';
 import { etherToWei } from '../helper/helper';
 import { toastSuccess, toastError } from '../helper/toastMessage';
-import { useRouter } from 'next/router'; // Import useRouter from Next.js
+import { useRouter } from 'next/router';
 
 const FundRiserForm = () => {
   const crowdFundingContract = useSelector(state => state.fundingReducer.contract);
@@ -12,7 +12,7 @@ const FundRiserForm = () => {
   const web3 = useSelector(state => state.web3Reducer.connection);
 
   const dispatch = useDispatch();
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -33,10 +33,8 @@ const FundRiserForm = () => {
       setTargetedContributionAmount('');
       setMinimumContributionAmount('');
       setDeadline('');
-      toastSuccess('Fund raising started 🎉');
+      toastSuccess('Fundraising started 🎉');
       toastSuccess('Redirecting to Dashboard...');
-
-      // Redirect to the Dashboard after 5 seconds
       setTimeout(() => {
         router.push('/dashboard');
       }, 5000);
@@ -60,58 +58,62 @@ const FundRiserForm = () => {
   };
 
   return (
-    <>
-      <h1 className="font-sans font-bold text-xl">Start Your Fundraising For Free </h1>
-      <form onSubmit={(e) => riseFund(e)}>
-        <div className="form-control my-1">
-          <label className="text-sm text-gray-700">Title :</label>
+    <div className="w-full max-w-xl mx-auto bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow border border-gray-200">
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        Start Your Fundraising For Free
+      </h1>
+
+      <form onSubmit={riseFund} className="space-y-4">
+        <div>
+          <label className="block text-sm text-gray-700 mb-1">Title:</label>
           <input
             type="text"
-            placeholder="Type here"
-            className="form-control-input border-neutral-400 focus:ring-neutral-200"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 outline-none"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            placeholder="Project title"
           />
         </div>
-        <div className="form-control my-1">
-          <label className="text-sm text-gray-700">Description :</label>
+
+        <div>
+          <label className="block text-sm text-gray-700 mb-1">Description:</label>
           <textarea
-            placeholder="Type here"
-            className="form-control-input border-neutral-400 focus:ring-neutral-200"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 outline-none"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
+            placeholder="Short project description"
           ></textarea>
         </div>
-        <div className="form-control my-1">
-          <label className="text-sm text-gray-700">Targeted contribution amount :</label>
+
+        <div>
+          <label className="block text-sm text-gray-700 mb-1">Targeted Contribution Amount (ETH):</label>
           <input
             type="number"
-            placeholder="Type here"
-            className="form-control-input border-neutral-400 focus:ring-neutral-200"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 outline-none"
             value={targetedContributionAmount}
             onChange={(e) => setTargetedContributionAmount(e.target.value)}
             required
           />
         </div>
-        <div className="form-control my-1">
-          <label className="text-sm text-gray-700">Minimum contribution amount :</label>
+
+        <div>
+          <label className="block text-sm text-gray-700 mb-1">Minimum Contribution Amount (ETH):</label>
           <input
             type="number"
-            placeholder="Type here"
-            className="form-control-input border-neutral-400 focus:ring-neutral-200"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 outline-none"
             value={minimumContributionAmount}
             onChange={(e) => setMinimumContributionAmount(e.target.value)}
             required
           />
         </div>
-        <div className="form-control date-picker my-1">
-          <label className="text-sm text-gray-700">Deadline :</label>
+
+        <div>
+          <label className="block text-sm text-gray-700 mb-1">Deadline:</label>
           <input
             type="date"
-            placeholder="Type here"
-            className="form-control-input border-neutral-400 focus:ring-neutral-200"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-pink-300 outline-none"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
             required
@@ -119,13 +121,14 @@ const FundRiserForm = () => {
         </div>
 
         <button
-          className="p-2 w-full bg-[#F56D91] text-white rounded-md hover:bg-[#d15677]"
+          type="submit"
+          className="w-full p-2 bg-[#F56D91] text-white rounded-md hover:bg-[#d15677] transition"
           disabled={btnLoading}
         >
-          {btnLoading ? 'Loading...' : 'Raise fund'}
+          {btnLoading ? 'Loading...' : 'Raise Fund'}
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

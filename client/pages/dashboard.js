@@ -8,13 +8,20 @@ const Dashboard = () => {
   const projectsList = useSelector((state) => state.projectReducer.projects);
 
   return (
-    <div className="px-2 py-4 lg:px-12">
-      <div className="w-full grid grid-cols-1 gap-4 lg:grid-cols-2"> {/* Grid layout for responsive design */}
+    <div className="px-2 py-4 lg:px-12 min-h-screen bg-gray-100">
+      {/* Introductory Text */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-semibold text-gray-800">Crowd Mint</h1>
+        <p className="text-xl text-gray-600 mt-2">The Future of Crowdfunding</p>
+      </div>
+
+      {/* Project Cards Section */}
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-4 lg:gap-4">
         {projectsList !== undefined ? (
           projectsList.length > 0 ? (
             projectsList.map((data, i) => (
-              <div className="max-w-lg mx-auto"> {/* Slightly reduced width for cards */}
-                <FundRiserCard props={data} key={i} />
+              <div className="w-full" key={i}>
+                <FundRiserCard props={data} />
               </div>
             ))
           ) : (
@@ -25,6 +32,18 @@ const Dashboard = () => {
         ) : (
           <Loader />
         )}
+      </div>
+
+      {/* Video Section Below the Project Cards */}
+      <div className="w-full mt-10 relative">
+        <video
+          className="object-contain w-full h-auto rounded-lg"
+          autoPlay
+          loop
+          muted
+        >
+          <source src="/intro-video.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
   );

@@ -1,51 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import Loader from '../components/Loader'
-import authWrapper from '../helper/authWrapper'
-import { getMyContributionList } from '../redux/interactions'
-import Link from "next/link";
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import Loader from '../components/Loader';
+import authWrapper from '../helper/authWrapper';
+import { getMyContributionList } from '../redux/interactions';
+import Link from 'next/link';
 
 const MyContributions = () => {
+  const crowdFundingContract = useSelector((state) => state.fundingReducer.contract);
+  const account = useSelector((state) => state.web3Reducer.account);
 
-    const crowdFundingContract = useSelector(state=>state.fundingReducer.contract)
-    const account = useSelector(state=>state.web3Reducer.account)
+  const [contributions, setContributions] = useState(null);
 
-    const [contributions, setContributions] = useState(null)
-
-    useEffect(() => {
-        (async() => {
-            if(crowdFundingContract){
-                var res = await getMyContributionList(crowdFundingContract,account)
-                console.log(res)
-                setContributions(res)
-            }
-        })();
-    }, [crowdFundingContract])
+  useEffect(() => {
+    (async () => {
+      if (crowdFundingContract) {
+        const res = await getMyContributionList(crowdFundingContract, account);
+        setContributions(res);
+      }
+    })();
+  }, [crowdFundingContract]);
 
   return (
-    <div className="px-2 py-4 flex flex-wrap lg:px-12 lg:flex-row ">
-        {
-          contributions?
-            contributions.length > 0?
-                contributions.map((data,i)=>(
-                    <div className='inner-card my-2 flex flex-row w-full lg:w-1/4' key={i}>
-                        <div className='lg:w-1/5'>
-                            <div className='p-6 w-8 h-8 mx-auto my-auto rounded-md bg-slate-300 '></div>
-                        </div>
-                        <div className='lg:w-4/5'>
-                            <Link href={`/project-details/${data.projectAddress}`}><p className='text-md font-bold text-gray-800 w-40 truncate cursor-pointer '>{data.projectAddress}</p></Link>
-                            <p className='text-sm font-bold text-gray-500'>{data.amount} ETH</p>
-                        </div>
-                    </div>
-                ))
-            :
-            <p className='text-center'>You didn't contributed in any project yet !</p>
-        :
-        <div className="w-full"> <Loader/></div>
-       
-        }
+    <div className="px-4 py-6 lg:px-12 flex flex-wrap gap-6 justify-center">
+      {contributions ? (
+        contributions.length > 0 ? (
+          contributions.map((data, i) => (
+            <div
+              key={i}
+              className="inline-block min-w-[250px] max-w-full bg-white/70 backdrop-blur-md border border-gray-300 shadow rounded-2xl p-4"
+              style={{ width: `${data.projectAddress.length * 9 + 120}px` }} // Adjust width based on address length
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex-shrink-0 w-10 h-10 rounded-md bg-slate-300" />
+                <div className="flex-grow">
+                  <Link href={`/project-details/${data.projectAddress}`}>
+                    <p
+                      className="text-sm font-semibold text-gray-800 break-all cursor-pointer"
+                      title={data.projectAddress}
+                    >
+                      {data.projectAddress}
+                    </p>
+                  </Link>
+                  <p className="text-sm text-gray-600 font-medium">{data.amount} ETH</p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-700 font-medium">You haven't contributed to any project yet!</p>
+        )
+      ) : (
+        <div className="w-full">
+          <Loader />
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default authWrapper(MyContributions)
+export default authWrapper(MyContributions);

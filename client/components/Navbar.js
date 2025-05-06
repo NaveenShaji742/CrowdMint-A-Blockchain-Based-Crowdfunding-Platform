@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Link from "next/link";
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -20,16 +20,16 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-          <img src="/logo.png" alt="CrowdMint Logo" className="h-8 w-8 object-contain" />
-          <Link href="/dashboard">
-          <span
-            className="text-2xl font-bold text-[#1D174D] hover:cursor-pointer"
-            style={{ fontFamily: 'Kristen ITC, cursive' }}
-          >
-            CrowdMint
-          </span>
-          </Link>
-        </div>
+            <img src="/logo.png" alt="CrowdMint Logo" className="h-8 w-8 object-contain" />
+            <Link href="/dashboard">
+              <span
+                className="text-2xl font-bold text-[#1D174D] hover:cursor-pointer"
+                style={{ fontFamily: 'Kristen ITC, cursive' }}
+              >
+                CrowdMint
+              </span>
+            </Link>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6 items-center">
@@ -48,17 +48,16 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Account Address */}
+          {/* Wallet Address and Mobile Toggle */}
           <div className="flex items-center space-x-4">
             <span className="hidden md:inline-block max-w-[160px] truncate text-sm font-medium text-[#1D174D]">
-              {account || "Not connected"}
+              {account || 'Not connected'}
             </span>
-
-            {/* Mobile Menu Toggle */}
             <div className="md:hidden">
               <button
-                onClick={() => setOpenMenu(!openMenu)}
+                onClick={() => setOpenMenu(prev => !prev)}
                 className="text-gray-600 hover:text-[#1D174D] focus:outline-none"
+                aria-label="Toggle navigation menu"
               >
                 <i className="fas fa-bars text-xl"></i>
               </button>
@@ -83,6 +82,9 @@ const Navbar = () => {
               </span>
             </Link>
           ))}
+          <div className="pt-2 border-t border-gray-200 text-sm text-[#1D174D] truncate">
+            Wallet: {account || 'Not connected'}
+          </div>
         </div>
       )}
     </nav>
